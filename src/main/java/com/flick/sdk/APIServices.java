@@ -1,4 +1,4 @@
-package com.flickpackage;
+package com.flick.sdk;
 
 import okhttp3.*;
 

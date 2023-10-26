@@ -1,17 +1,18 @@
-package com.flickpackage;
+package com.flick.sdk;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import java.io.IOException;
 
-public class FlickJavaSDK {
+public class Bills {
     private OkHttpClient client;
     private String baseUrl;
     private String apiKey;
 
-    public FlickJavaSDK(String environment, String apiKey) {
+    public Bills(String environment, String apiKey) {
         this.client = new OkHttpClient();
         this.apiKey = apiKey;
         this.baseUrl = getBaseUrl(environment);

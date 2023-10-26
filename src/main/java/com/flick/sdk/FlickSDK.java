@@ -1,28 +1,37 @@
-package com.flickpackage;
+package com.flick.sdk;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import java.io.IOException;
 
-public class Bills {
+public class FlickSDK {
     private OkHttpClient client;
     private String baseUrl;
     private String apiKey;
 
-    public Bills(String environment, String apiKey) {
+    public static final String ENVIRONMENT_SANDBOX = "sandbox";
+    public static final String ENVIRONMENT_PRODUCTION = "production";
+
+    /**
+     * @param environment : specify the type of environment type
+     * @param apiKey      : API key goes here
+     */
+    public FlickSDK(String environment, String apiKey) {
         this.client = new OkHttpClient();
         this.apiKey = apiKey;
         this.baseUrl = getBaseUrl(environment);
     }
 
     private String getBaseUrl(String environment) {
-        if ("sandbox".equals(environment)) {
+        if (ENVIRONMENT_SANDBOX.equals(environment)) {
             return "https://sandbox-api.flick.network";
-        } else {
+        } else if (ENVIRONMENT_PRODUCTION.equals(environment)) {
             return "https://api.flick.network";
         }
+        throw new IllegalArgumentException("Use either FlickSDK.ENVIRONMENT_SANDBOX or FlickSDK.ENVIRONMENT_PRODUCTION");
     }
 
     public Response onboardEGS(String egsDataJson) {
