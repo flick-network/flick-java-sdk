@@ -45,6 +45,7 @@ Here's how you to initiate our SDK in your project:
 ```java
 package test;
 
+import com.flick.sdk.Bills;
 import com.flick.sdk.FlickSDK;
 import okhttp3.Response;
 
@@ -52,7 +53,7 @@ public class HelloController {
 
     public static void main(String[] args) {
         // Initailize the object
-        FlickSDK api = new FlickSDK(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
+        Bills api = new Bills(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
         
 	
     }
@@ -70,50 +71,65 @@ The Bills client provides access to various functionalities for managing bills. 
 
 ```java
 // Initialize the api handler
-FlickSDK api = new FlickSDK(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
-
-// Create an EGSData object
-EGSData egsData = new EGSData();
-
-/**   Add the necessary data **/  
-
-//Convert to valid json string using any library 
-// Here we are using gson
-Gson gson = new Gson();
-
-
-Response response = api.onboardEGS(gson.toJson(egsData));
+Bills api = new Bills(FlickSDK.ENVIRONMENT_SANDBOX,"YOUR-API-KEY-GOES-HERE");
 ```
 
 #### Compliance Check:
 
 ```java
-$egs_uuid = 'egs-uuid';
+Bills api = new Bills(FlickSDK.ENVIRONMENT_SANDBOX,"YOUR-API-KEY-GOES-HERE");
 
-$response = $bills->do_compliance_check($egs_uuid);
-print($response->getBody()->getContents());
+try {
+  String egsUUID = "7b9cc231-0e14-4bff-938c-4603fe10c4bc";
+  Response response = api.doComplianceCheck(egsUUID).execute();
+  // Process the response
+} catch (IOException e) {
+  e.printStackTrace();
+}
 ```
 
 #### Generate E-Invoice for Phase-2 in Saudi Arabia:
 ```java
-package test;
 
-import com.flick.sdk.FlickSDK;
-import com.flick.sdk.types.InvoiceData;
-import com.google.gson.Gson;
+Bills api = new Bills(FlickSDK.ENVIRONMENT_SANDBOX,"YOUR-API-KEY-GOES-HERE");
+EGSData egsData = new EGSData();
+// Add data to egsData object
 
-import okhttp3.Response;
+// Create Device objects
+List<Device> devices = new ArrayList<>();
 
+Device device1 = new Device();
+Device device2 = new Device();
 
-public class HelloController {
+devices.add(device1);
+devices.add(device2);
 
-    public static void main(String[] args) {
-        FlickSDK api = new FlickSDK(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
-        InvoiceData invoiceData = new InvoiceData();
-		Gson gson = new Gson();
-        Response response = api.generateInvoice(gson.toJson(invoiceData))
-    }
+egsData.setDevices(devices);
+Gson gson = new Gson();
+
+try {
+  Response response = api.onboardEGS(gson.toJson(egsData)).execute();
+  // Process your response
+} catch (IOException e) {
+  e.printStackTrace();
 }
+```
+You can also do callbacks
+```java
+api.generateInvoice(gson.toJson(invoiceData)).enqueue(new Callback() {
+			@Override
+			public void onFailure(final Call call, IOException e) {
+				// Error
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onResponse(Call call, final Response response) throws IOException {
+				String res = response.body().string();
+				// Do something with the response
+				System.out.println(res);
+			}
+		});
 ```
 
 ## Examples
@@ -125,7 +141,7 @@ public class HelloController {
 ```java
 package test;
 
-import com.flick.sdk.FlickSDK;
+import com.flick.sdk.Bills;
 import com.flick.sdk.types.InvoiceData;
 import com.google.gson.Gson;
 
@@ -135,7 +151,7 @@ import okhttp3.Response;
 public class HelloController {
 
     public static void main(String[] args) {
-        FlickSDK api = new FlickSDK(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
+        Bills api = new Bills(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
         EGSData egsData = new EGSData();
         egsData.setVatName("Test Co.");
         egsData.setVatNumber("300000000000003");
@@ -172,7 +188,12 @@ public class HelloController {
 
         egsData.setDevices(devices);
         Gson gson = new Gson();
-        Response response = api.onboardEGS(gson.toJson(egsData));
+        try {
+          Response response = api.onboardEGS(gson.toJson(egsData)).execute();
+          // Process your response
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
     }
 } 
 ```
@@ -182,7 +203,7 @@ public class HelloController {
 ```java
 package test;
 
-import com.flick.sdk.FlickSDK;
+import com.flick.sdk.Bills;
 import com.flick.sdk.types.InvoiceData;
 import com.google.gson.Gson;
 
@@ -192,7 +213,7 @@ import okhttp3.Response;
 public class HelloController {
 
     public static void main(String[] args) {
-        FlickSDK api = new FlickSDK(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
+        Bills api = new Bills(FlickSDK.ENVIRONMENT_SANDBOX, "YOUR-API-KEY-GOES-HERE");
 		InvoiceData invoiceData = new InvoiceData();
 		invoiceData.setEgsUuid("7b9cc231-0e14-4bff-938c-4603fe10c4bc");
 		invoiceData.setInvoiceRefNumber("INV-5");
@@ -271,7 +292,12 @@ public class HelloController {
 
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(invoiceData));
-		Response response = api.generateInvoice(gson.toJson(invoiceData));
+        try {
+          Response response = api.generateInvoice(gson.toJson(invoiceData)).execute();;
+          // Process your response
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
     }
 }
 
