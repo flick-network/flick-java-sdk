@@ -1,75 +1,33 @@
 package com.flick.sdk;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import java.io.IOException;
+import okhttp3.Call;
 
 public class Bills {
-    private OkHttpClient client;
-    private String baseUrl;
-    private String apiKey;
+    private FlickSDK client;
 
+    /**
+     * @param environment : specify the type of environment type
+     * @param apiKey      : API key goes here
+     */
     public Bills(String environment, String apiKey) {
-        this.client = new OkHttpClient();
-        this.apiKey = apiKey;
-        this.baseUrl = getBaseUrl(environment);
+        this.client = new FlickSDK(environment, apiKey);
     }
 
-    private String getBaseUrl(String environment) {
-        if ("sandbox".equals(environment)) {
-            return "https://sandbox-api.flick.network";
-        } else {
-            return "https://api.flick.network";
-        }
+    public Call onboardEGS(String egsDataJson) {
+
+        return client.sendPostRequest("egs/onboard", egsDataJson);
+
     }
 
-    public Response onboardEGS(String egsDataJson) {
-        RequestBody requestBody = RequestBody.create(egsDataJson, MediaType.get("application/json"));
-        Request request = new Request.Builder()
-                .url(baseUrl + "/egs/onboard")
-                .addHeader("Authorization", "Bearer " + apiKey)
-                .post(requestBody)
-                .build();
+    public Call doComplianceCheck(String egsUuid) {
 
-        try {
-            return client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return client.sendGetRequest("egs/compliance-check/" + egsUuid);
+
     }
 
-    public Response doComplianceCheck(String egsUuid) {
-        Request request = new Request.Builder()
-                .url(baseUrl + "/egs/compliance-check/" + egsUuid)
-                .addHeader("Authorization", "Bearer " + apiKey)
-                .get()
-                .build();
+    public Call generateInvoice(String invoiceDataJson) {
 
-        try {
-            return client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+        return client.sendPostRequest("invoice/generate", invoiceDataJson);
 
-    public Response generateInvoice(String invoiceDataJson) {
-        RequestBody requestBody = RequestBody.create(invoiceDataJson, MediaType.get("application/json"));
-        Request request = new Request.Builder()
-                .url(baseUrl + "/invoice/generate")
-                .addHeader("Authorization", "Bearer " + apiKey)
-                .post(requestBody)
-                .build();
-
-        try {
-            return client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

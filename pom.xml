@@ -6,7 +6,7 @@
 
     <groupId>com.flick.sdk</groupId>
     <artifactId>flick-java-sdk</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.12</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
