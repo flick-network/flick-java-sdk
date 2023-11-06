@@ -1,4 +1,4 @@
-package com.flick.sdk;
+package network.flick.sdk;
 
 import okhttp3.Call;
 

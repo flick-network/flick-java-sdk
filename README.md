@@ -1,6 +1,5 @@
-# Flick Java SDK
-![Platform](https://img.shields.io/badge/java-7.2.5+-orange)
-![Platform](https://img.shields.io/badge/java-8+-blue)
+# Flick Java SDK (Experimental)
+![Platform](https://img.shields.io/badge/Java-8-blue)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
 
 
@@ -19,7 +18,7 @@ To use the Flick Java SDK in your project, you can install it using :
 
 ```xml
 <dependency>
-    <groupId>com.flick.sdk</groupId>
+    <groupId>network.flick.sdk</groupId>
     <artifactId>flick-java-sdk</artifactId>
     <version>0.0.1</version>
 </dependency>
@@ -45,8 +44,8 @@ Here's how you to initiate our SDK in your project:
 ```java
 package test;
 
-import com.flick.sdk.Bills;
-import com.flick.sdk.FlickSDK;
+import network.flick.sdk.Bills;
+import network.flick.sdk.FlickSDK;
 import okhttp3.Response;
 
 public class HelloController {
@@ -141,8 +140,8 @@ api.generateInvoice(gson.toJson(invoiceData)).enqueue(new Callback() {
 ```java
 package test;
 
-import com.flick.sdk.Bills;
-import com.flick.sdk.types.InvoiceData;
+import network.flick.sdk.Bills;
+import network.flick.sdk.types.InvoiceData;
 import com.google.gson.Gson;
 
 import okhttp3.Response;
@@ -203,8 +202,8 @@ public class HelloController {
 ```java
 package test;
 
-import com.flick.sdk.Bills;
-import com.flick.sdk.types.InvoiceData;
+import network.flick.sdk.Bills;
+import network.flick.sdk.types.InvoiceData;
 import com.google.gson.Gson;
 
 import okhttp3.Response;

@@ -1,4 +1,4 @@
-package com.flick.sdk.types;
+package network.flick.sdk.types;
 
 import java.util.ArrayList;
 import java.util.List;

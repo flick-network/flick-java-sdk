@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.flick.sdk</groupId>
+    <groupId>network.flick.sdk</groupId>
     <artifactId>flick-java-sdk</artifactId>
     <version>0.0.12</version>
 
@@ -46,7 +46,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.flick.sdk.FlickSDK</mainClass>
+                            <mainClass>network.flick.sdk.FlickSDK</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
