@@ -1,4 +1,4 @@
-package com.flickpackage.types;
+package network.flick.sdk.types;
 
 public class APIConfig {
     public String environment;
